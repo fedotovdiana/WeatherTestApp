@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.itis.group11801.fedotova.weathertest.R
+import com.itis.group11801.fedotova.weathertest.net.cities.City
 
 class CityAdapter(
-    val data: List<Int>,
+    val data: List<City>,
     private val onClick: (Int) -> Unit
 ) : RecyclerView.Adapter<CityViewHolder>() {
 

@@ -3,26 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:padding = "24dp"
+    android:padding="24dp"
     tools:context=".activities.MainActivity">
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_rec_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Kazan"/>
 
     <TextView
+        android:id="@+id/tv_rec_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:textSize="28sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/tv_title"
+        app:layout_constraintLeft_toRightOf="@id/tv_rec_name"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="+10">
 

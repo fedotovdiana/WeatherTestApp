@@ -16,6 +16,6 @@ interface WeatherService {
     suspend fun findCitiesInCycle(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
-        @Query("cnt") cnt: Int = 10
+        @Query("cnt") cnt: Int = 20
     ): CitiesResponse
 }

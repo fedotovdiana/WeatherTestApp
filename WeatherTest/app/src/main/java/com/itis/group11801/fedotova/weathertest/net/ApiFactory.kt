@@ -14,8 +14,28 @@ object ApiFactory {
             .request()
             .url()
             .newBuilder()
-            .addQueryParameter("appid",
+            .addQueryParameter(
+                "appid",
                 BuildConfig.API_KEY
+            )
+            .build()
+
+        val newRequest = chain
+            .request()
+            .newBuilder()
+            .url(newUrl)
+            .build()
+        chain.proceed(newRequest)
+    }
+
+    private val unitsInterceptor = Interceptor { chain ->
+        val newUrl = chain
+            .request()
+            .url()
+            .newBuilder()
+            .addQueryParameter(
+                "units",
+                BuildConfig.UNITS
             )
             .build()
 
@@ -31,6 +51,7 @@ object ApiFactory {
         OkHttpClient()
             .newBuilder()
             .addInterceptor(authInterceptor)
+            .addInterceptor(unitsInterceptor)
             .addInterceptor(HttpLoggingInterceptor().setLevel((HttpLoggingInterceptor.Level.BODY)))
             .build()
     }
@@ -47,7 +68,8 @@ object ApiFactory {
 
     val weatherService: WeatherService by lazy {
         retrofit.create(
-            WeatherService::class.java)
+            WeatherService::class.java
+        )
     }
 
 }

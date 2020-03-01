@@ -24,6 +24,7 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'API_ENDPOINT', baseUrl
         it.buildConfigField 'String', 'API_KEY', apiKey
+        it.buildConfigField 'String', 'UNITS', units
     }
     compileOptions {
         sourceCompatibility = "1.8"
@@ -39,7 +40,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    
+
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2"
 
