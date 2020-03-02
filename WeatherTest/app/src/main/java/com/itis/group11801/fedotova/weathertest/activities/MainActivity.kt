@@ -21,6 +21,8 @@ import com.itis.group11801.fedotova.weathertest.net.ApiFactory
 import com.itis.group11801.fedotova.weathertest.net.WeatherService
 import com.itis.group11801.fedotova.weathertest.recycler.CityAdapter
 import com.itis.group11801.fedotova.weathertest.utils.ID
+import com.itis.group11801.fedotova.weathertest.utils.LAT
+import com.itis.group11801.fedotova.weathertest.utils.LON
 import com.itis.group11801.fedotova.weathertest.utils.PERMISSIONS_REQUEST_CODE
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
@@ -31,8 +33,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     lateinit var adapter: CityAdapter
     lateinit var service: WeatherService
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-    private var lon = 49.12
-    private var lat = 55.79
+    private var lon = LON
+    private var lat = LAT
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
