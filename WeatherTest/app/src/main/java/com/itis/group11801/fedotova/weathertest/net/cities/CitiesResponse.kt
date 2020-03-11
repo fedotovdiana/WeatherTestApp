@@ -1,6 +1,5 @@
 package com.itis.group11801.fedotova.weathertest.net.cities
 
-
 import com.google.gson.annotations.SerializedName
 
 data class CitiesResponse(

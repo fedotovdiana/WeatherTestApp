@@ -36,6 +36,6 @@ fun setTempColor(context: Context, temp: Double): Int {
 
 fun degreeToDirection(deg: Int): String {
     val directions = arrayOf("N", "NE", "E", "SE", "S", "SW", "W", "NW")
-    val i = (deg / DEG_HALF) + HALF
-    return directions[(i % SIZE).toInt()]
+    val number = deg / DEG_HALF + HALF
+    return directions[(number % SIZE).toInt()]
 }

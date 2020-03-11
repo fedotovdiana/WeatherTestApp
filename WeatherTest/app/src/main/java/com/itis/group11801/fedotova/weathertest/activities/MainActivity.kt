@@ -30,8 +30,13 @@ import retrofit2.HttpException
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
+    @Suppress("LateinitUsage")
     lateinit var adapter: CityAdapter
+
+    @Suppress("LateinitUsage")
     lateinit var service: WeatherService
+
+    @Suppress("LateinitUsage")
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var lon = LON
     private var lat = LAT
@@ -128,10 +133,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        if (requestCode == PERMISSIONS_REQUEST_CODE) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLastLocation()
-            }
+        if (requestCode == PERMISSIONS_REQUEST_CODE && grantResults.isNotEmpty()
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            getLastLocation()
         }
     }
 

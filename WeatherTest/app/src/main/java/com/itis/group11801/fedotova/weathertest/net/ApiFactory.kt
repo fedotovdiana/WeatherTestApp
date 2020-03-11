@@ -52,7 +52,7 @@ object ApiFactory {
             .newBuilder()
             .addInterceptor(authInterceptor)
             .addInterceptor(unitsInterceptor)
-            .addInterceptor(HttpLoggingInterceptor().setLevel((HttpLoggingInterceptor.Level.BODY)))
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
     }
 
