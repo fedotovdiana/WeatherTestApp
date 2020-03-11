@@ -21,6 +21,8 @@ import com.itis.group11801.fedotova.weathertest.net.ApiFactory
 import com.itis.group11801.fedotova.weathertest.net.WeatherService
 import com.itis.group11801.fedotova.weathertest.recycler.CityAdapter
 import com.itis.group11801.fedotova.weathertest.utils.ID
+import com.itis.group11801.fedotova.weathertest.utils.LAT
+import com.itis.group11801.fedotova.weathertest.utils.LON
 import com.itis.group11801.fedotova.weathertest.utils.PERMISSIONS_REQUEST_CODE
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
@@ -28,11 +30,16 @@ import retrofit2.HttpException
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
+    @Suppress("LateinitUsage")
     lateinit var adapter: CityAdapter
+
+    @Suppress("LateinitUsage")
     lateinit var service: WeatherService
+
+    @Suppress("LateinitUsage")
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-    private var lon = 49.12
-    private var lat = 55.79
+    private var lon = LON
+    private var lat = LAT
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -126,10 +133,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        if (requestCode == PERMISSIONS_REQUEST_CODE) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLastLocation()
-            }
+        if (requestCode == PERMISSIONS_REQUEST_CODE && grantResults.isNotEmpty()
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            getLastLocation()
         }
     }
 

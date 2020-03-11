@@ -1,7 +1,9 @@
 package com.itis.group11801.fedotova.weathertest.recycler
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.itis.group11801.fedotova.weathertest.R
 import com.itis.group11801.fedotova.weathertest.net.cities.City
@@ -22,6 +24,7 @@ class CityAdapter(
 
     override fun getItemCount() = data.size
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) =
         holder.bind(data[position], onClick)
 }

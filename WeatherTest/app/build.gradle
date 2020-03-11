@@ -1,8 +1,19 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+ext {
+    API_KEY = ''
+}
+
+if ("true" == System.getenv("CI")) {
+    def key = System.getenv("OPEN_WEATHER_KEY")
+    API_KEY = "\"4d21f6884f99d4d877c3a9178e72a64a\""
+} else {
+    API_KEY = apiKey
+}
+
 
 android {
     compileSdkVersion 29
@@ -30,6 +41,8 @@ android {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
     }
+
+
 }
 
 androidExtensions {
@@ -46,7 +59,7 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:2.6.4"
     implementation "com.squareup.retrofit2:converter-gson:2.6.4"
-    debugImplementation 'com.squareup.okhttp3:logging-interceptor:3.12.8'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.8'
 
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
@@ -56,4 +69,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+
+detekt {
+    failFast = true // fail build on any finding
+    buildUponDefaultConfig = true // preconfigure defaults
+    config = files("$rootDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+
+    reports {
+        html.enabled = true // observe findings in your browser with structure and code snippets
+        xml.enabled = false // checkstyle like format mainly for integrations like Jenkins
+        txt.enabled = false // similar to the console output, contains issue signature to manually edit baseline files
+    }
 }
