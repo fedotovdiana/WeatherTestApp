@@ -1,21 +1,22 @@
 package com.itis.group11801.fedotova.weathertest.net
 
 import com.itis.group11801.fedotova.weathertest.net.cities.CitiesResponse
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherService {
 
     @GET("weather")
-    suspend fun weatherByName(@Query("q") name: String): WeatherResponse
+    fun weatherByName(@Query("q") name: String): Observable<WeatherResponse>
 
     @GET("weather")
-    suspend fun weatherByID(@Query("id") id: Int): WeatherResponse
+    fun weatherByID(@Query("id") id: Int): Observable<WeatherResponse>
 
     @GET("find")
-    suspend fun findCitiesInCycle(
+    fun findCitiesInCycle(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
         @Query("cnt") cnt: Int = 20
-    ): CitiesResponse
+    ): Observable<CitiesResponse>
 }

@@ -15,20 +15,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.material.snackbar.Snackbar
 import com.itis.group11801.fedotova.weathertest.R
 import com.itis.group11801.fedotova.weathertest.net.ApiFactory
+import com.itis.group11801.fedotova.weathertest.net.WeatherResponse
 import com.itis.group11801.fedotova.weathertest.net.WeatherService
+import com.itis.group11801.fedotova.weathertest.net.cities.CitiesResponse
 import com.itis.group11801.fedotova.weathertest.recycler.CityAdapter
 import com.itis.group11801.fedotova.weathertest.utils.ID
 import com.itis.group11801.fedotova.weathertest.utils.LAT
 import com.itis.group11801.fedotova.weathertest.utils.LON
 import com.itis.group11801.fedotova.weathertest.utils.PERMISSIONS_REQUEST_CODE
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
-import retrofit2.HttpException
 
-class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+class MainActivity : AppCompatActivity() {
 
     @Suppress("LateinitUsage")
     lateinit var adapter: CityAdapter
@@ -76,32 +77,41 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         })
     }
 
-    private fun find(query: String): Boolean {
-        try {
-            launch {
-                val response = withContext(Dispatchers.IO) {
-                    service.weatherByName(query)
-                }
-                showDetails(response.id)
-            }
-        } catch (e: HttpException) {
-            Snackbar.make(main_layout, getString(R.string.tv_error), Snackbar.LENGTH_LONG).show()
-            Log.e("EXCEPTION", "$e")
-        }
-        return false
+    private fun find(query: String) {
+        val job = service
+            .weatherByName(query)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleResult, this::handleError)
     }
 
-    private fun findCities(lat: Double, lon: Double): Boolean {
-        launch {
-            val response = withContext(Dispatchers.IO) {
-                service.findCitiesInCycle(lat, lon)
-            }
-            adapter = CityAdapter(response.list) {
-                showDetails(it)
-            }
-            rv_cities.adapter = adapter
+    private fun handleResult(response: WeatherResponse) {
+        showDetails(response.id)
+    }
+
+    private fun handleError(t: Throwable) {
+        Log.e("Observer", "" + t.toString())
+        Toast.makeText(this, "ERROR IN GETTING COUPONS", Toast.LENGTH_LONG).show()
+    }
+
+    private fun findCities(lat: Double, lon: Double) {
+        val job = service
+            .findCitiesInCycle(lat, lon)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleRecResult, this::handleRecError)
+    }
+
+    private fun handleRecResult(response: CitiesResponse) {
+        adapter = CityAdapter(response.list) {
+            showDetails(it)
         }
-        return false
+        rv_cities.adapter = adapter
+    }
+
+    private fun handleRecError(t: Throwable) {
+        Log.e("Observer", "" + t.toString())
+        Toast.makeText(this, "ERROR IN GETTING COUPONS", Toast.LENGTH_LONG).show()
     }
 
     //Permissions
