@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
             .findCitiesInCycle(lat, lon)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleRecResult, this::handleRecError)
+            .subscribe(this::handleRecResult, this::handleError)
     }
 
     private fun handleRecResult(response: CitiesResponse) {
@@ -107,11 +107,6 @@ class MainActivity : AppCompatActivity() {
             showDetails(it)
         }
         rv_cities.adapter = adapter
-    }
-
-    private fun handleRecError(t: Throwable) {
-        Log.e("Observer", "" + t.toString())
-        Toast.makeText(this, "ERROR IN GETTING COUPONS", Toast.LENGTH_LONG).show()
     }
 
     //Permissions
